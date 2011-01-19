@@ -1,0 +1,26 @@
+cron:
+
+- description: daily email job
+  timezone: EST
+  url: /daemon-1
+  schedule: every day 09:00
+
+- description: daily email job
+  timezone: EST
+  url: /daemon-2
+  schedule: every day 11:00
+  
+- description: daily email job
+  timezone: EST
+  url: /daemon-3
+  schedule: every day 13:00
+  
+- description: daily email job
+  timezone: EST
+  url: /daemon-4
+  schedule: every day 15:00
+  
+- description: daily email job
+  timezone: EST
+  url: /daemon-5
+  schedule: every day 17:00

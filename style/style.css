@@ -1,0 +1,42 @@
+/*
+Theme Name: onesmallpage
+Theme URI: http://www.onesmallpage.com/
+Description: drl theme.
+Version: 1.0
+Author: Dan Shipper
+Author URI: http://www.danshipper.com
+*/
+html {
+	height: 100%;
+}
+
+body{
+	font: 15px/18px "Helvetica", Arial, Verdana, sans-serif; 
+	height: 100%;               
+	background-color: #ffdfbf;     
+    margin: 0px;   
+}
+
+
+
+@font-face { 
+	font-family: "Helvetica Neue";         
+	src: url("fonts/HelveticaNeue.ttf"); 
+} 
+
+img{
+	border: 0;	
+}
+a {
+	outline: none;	
+}
+a img{
+	border: none;	
+}
+
+h1{
+	font: 36px Georgia
+	margin: 0px
+	padding: 0px
+}
+ 

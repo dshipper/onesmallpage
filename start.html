@@ -1,0 +1,13 @@
+<html>
+<body>
+	Etext number is: {{ etext }} <br><br>
+	<form action="/add-reader" method="get">
+		Please enter the email address you would like us to send the book to:
+		<div><input type="text" name="email"/></div><br>
+		Please enter the number of pages you would like to receive a day (1-10):
+		<div><input type="text" name="times"></div>
+		<input type="hidden" name="etext" value="{{etext}}"/><br>
+		<div><input type="submit" value="Start Reading"></div>
+	</form>
+</body>
+</html>
