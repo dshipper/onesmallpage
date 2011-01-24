@@ -17,13 +17,6 @@ body{
     margin: 0px;   
 }
 
-
-
-@font-face { 
-	font-family: "Helvetica Neue";         
-	src: url("fonts/HelveticaNeue.ttf"); 
-} 
-
 img{
 	border: 0;	
 }
@@ -35,8 +28,58 @@ a img{
 }
 
 h1{
-	font: 36px Georgia
-	margin: 0px
-	padding: 0px
+	font: 36px Georgia;
+	margin: 0px;
+	padding: 0px;
+}
+
+.content{
+	width: 900px;
+	margin: auto;
+	padding: 20px;
+		
+}
+
+#logo{
+	width: 270px;
+	margin: auto;
+}
+
+.header-super{
+	font-weight: bold;
+	font: 10px Arial;
+	padding-bottom: 25px;
+	margin-bottom: 25px;
+	width: 900px;	
+}
+
+.header{
+	float: right;	
+}
+
+#nav{
+	font: 14px Georgia;	
+}
+
+a:link, a:visited{
+	text-decoration: none;
+	color: black;
+}
+
+.left-column{
+	width: 445px;
+	padding-left: 5px;
+}
+
+.right-column{
+	width: 445px;
+	padding-right: 5px;
+	float: right;
+}
+
+#center{
+	width: 445px;
+	margin: auto;
+	padding-left: 40px;
 }
  

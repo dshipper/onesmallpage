@@ -3,12 +3,12 @@ version: 1
 runtime: python
 api_version: 1
 
-handlers: 
--    url: /admin/.*
-     script: etext.py
+handlers:
+-   url: /admin/.*
+    script: etext.py
 
--    url: /
-     script: onesmallpage.py  
+-   url: /
+    script: onesmallpage.py  
                                 
 -   url: /search
     script: onesmallpage.py
@@ -21,3 +21,10 @@ handlers:
     
 -   url: /daemon-1
     script: onesmallpage.py
+    
+-   url: /style
+    static_dir: style
+    
+-   url: /images
+    static_dir: images
+    

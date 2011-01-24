@@ -12,8 +12,9 @@ import Book
 import Reader
 
 
-html_pattern = r"<dcterms:hasFormat rdf:resource=\"(?P<url>[^<]+(htm|html)[^<])<"
+html_pattern = r"<dcterms:hasFormat rdf:resource=\"(?P<url>[^<]+(htm|html).*)\""
 chtml_pattern = re.compile(html_pattern)
+lines_per_page = 50
 
 class Daemon_1(webapp.RequestHandler):
 	def get(self):
@@ -40,16 +41,52 @@ class Daemon_1(webapp.RequestHandler):
 					book.html_url = html_url
 					book.put()
 			else:
-				html_url = book.html_url			
-			user_address = reader.email
-			sender_address = "dshipper@gmail.com"
-			subject = "One Page of Your Book: " + book.title 
-			body = "Thank you for registering with us."
-			
-			print 'Hello, world!'
-			try:
-				mail.send_mail(sender_address, user_address, subject, body)
-			except:
+				html_url = book.html_url
+			if(html_url != ""):			
+				user_address = reader.email
+				sender_address = "dshipper@gmail.com"
+				if reader.position == 0:
+					subject = "Bringing You the First 10 Pages of: " + book.title
+					f = urllib.urlopen(html_url)
+					html = ""
+					lines_read = 0
+					while lines_read < lines_per_page*10:
+						html += f.readline()
+						lines_read += 1
+					body = html
+					print html
+					reader.position += lines_read
+					reader.put()
+				else:
+					subject = "Bringing You Another Page of: " + book.title
+					f = urllib.urlopen(html_url)
+					html = ""
+					lines_read = 0
+					while lines_read <= lines_per_page+reader.position:
+						if(lines_read >= reader.position-10):
+							html += f.readline()
+						else:
+							f.readline()
+						lines_read += 1
+					if html != "":
+						body = html
+						print "We already did this."
+						print html
+						reader.position = reader.position + 50
+						reader.put()
+					
+				print 'Sent book to: ' + sender_address
+				try:
+					if html != "":
+						#mail.send_mail(sender_address, user_address, subject, body)
+						message = mail.EmailMessage()
+						message.sender = sender_address
+						message.to = user_address
+						message.subject = subject
+						message.html = body
+				except:
+					print 'error'
+			else:
 				print 'error'
 
 class Daemon_2(webapp.RequestHandler):
@@ -156,38 +193,18 @@ class MainPage(webapp.RequestHandler):
 class SearchPage(webapp.RequestHandler):
 	def get(self):
 		query = self.request.get('q')
-		query_split = query.split(" ")
-		if(len(query_split) == 0):
-			author_first_name = "0"
-			author_last_name = "0"
-		elif(len(query_split) > 2):
-			author_first_name = query[0] + query[1]
-			author_last_name = query[2]
-		else:
-			author_first_name = query[0]
-			author_last_name = query[1]
 	
 		books_by_title = Book.Book.all().filter("title =",str(query))
-		books_by_first_name = Book.Book.all().filter("author_first_name =",str(query))
-		books_by_last_name = Book.Book.all().filter("author_last_name =", str(query))
 		books_by_both = Book.Book.all().filter("author_full_name =", str(query))
 		books = []
 		
 		for book in books_by_title:
 			link = "<a href='/start?etext="+book.etext_number+"'>Start Reading this Book Now.</a>" 
-			books.append(book.title + " by " + book.author_first_name + " " + book.author_last_name + " " + link) 
+			books.append(book.title + " by " + book.author_full_name + " " + link) 
 
-		for book in books_by_first_name:
-			link = "<a href='/start?etext="+book.etext_number+"'>Start Reading this Book Now.</a>" 
-			books.append(book.title + " by " + book.author_first_name + " " + book.author_last_name + " " + link) 
-
-		for book in books_by_last_name:
-			link = "<a href='/start?etext="+book.etext_number+"'>Start Reading this Book Now.</a>" 
-			books.append(book.title + " by " + book.author_first_name + " " + book.author_last_name + " " + link)
-	
 		for book in books_by_both:
 			link = "<a href='/start?etext="+book.etext_number+"'>Start Reading this Book Now.</a>" 
-			books.append(book.title + " by " + book.author_first_name + " " + book.author_last_name + " " + link)
+			books.append(book.title + " by " + book.author_full_name + " " + link)
 
 
 		template_values = {
