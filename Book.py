@@ -6,5 +6,5 @@ class Book(db.Model):
 	#date_published = db.StringPropert()
 	etext_number = db.StringProperty()
 	etext_url = db.StringProperty()
-	html_url = db.StringProperty()
+#	html_url = db.StringProperty()
 	
